@@ -1,11 +1,12 @@
 var totalAcerto = 0
+var certo = document.getElementById (['d1' , 'd2', 'a3','c4', 'b5', 'a6', 'd7', 'd8', 'a9', 'c10' ])
+var totalErro = 0
+var errado = document.getElementById (['a1', 'b1', 'c1', 'a2', 'b2', 'c2', 'b3', 'c3', 'd3', 'a4', 'b4', 'd4', 'a5', 'c5', 'd5', 'b6', 'c6', 'd6', 'a7', 'b7', 'c7', 'a8', 'b8', 'c8', 'b9', 'c9', 'd9', 'a10', 'b10', 'd10'])
 
 /*questao 1*/
 
 function acertod1(){
     document.getElementById('d1').style.display="block"
-    if (totalAcerto){
-        totalAcerto++};
 };
 setInterval(function(){
     document.getElementById('d1').style.display="none"
@@ -191,7 +192,6 @@ setInterval(function(){
 
 function acertod7(acerto) {
     document.getElementById('d7').style.display="block"
-    totalAcerto= totalAcerto++
 }
 setInterval(function(){
     document.getElementById('d7').style.display="none"
@@ -311,7 +311,14 @@ setInterval(function(){
     document.getElementById('c10').style.display="none"
 },2000)
 
-if (totalAcerto ==10){
-    alert('show')
+if (acerto){
+    totalAcerto++
+}
 
+if (errado){
+    totalErro++
+}
+
+if(totalErro + totalAcerto == 10){
+document.write(" Você acerto " + totalAcerto + " e errou " + totalErro)
 }
