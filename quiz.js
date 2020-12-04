@@ -1,317 +1,128 @@
-var totalAcerto = 0
+// Inicia a variável pra contar quantas já foram respondidas corretamente.
+let respondidas = 0;
 
-/*questao 1*/
+// Algumas funções só pra encurtar o document.querySelector.
+const search = (element) => document.querySelector(element);
+const searchAll = (element) => document.querySelectorAll(element);
 
-function acertod1(){
-    document.getElementById('d1').style.display="block"
-    if (totalAcerto){
-        totalAcerto++};
+// A partir daqui começa a construção de elementos, é aqui que a mágica acontece,
+// é aqui que o JavaScript lê o arquivo perguntas.js e renderiza cada um dos itens
+// que existe lá.
+perguntasJson.map((item, index) => {
+    // Clonando o modelo de pergunta que está no HTML.
+    let perguntaItem = search('.modelo .questaoArea').cloneNode(true);
+
+    // Separando as respostas e embaralhando cada uma delas.
+    let respostasLista = item.respostas;
+    respostasLista = respostasLista.sort(() => Math.random() - 0.5);
+
+    // Fazendo a substituição de cada elemento pelo conteúdo dos obejetos que
+    // vieram do perguntasJson.
+    perguntaItem.querySelector('.questao').innerHTML = `Questão ${item.id}`;
+    perguntaItem.querySelector('.enunciado').innerHTML = item.pergunta;
+    
+    // Iniciando a variável que vai impredir a pessoa de responder caso ela
+    // já tenha acertado.
+    let respondidoCorreto = false;
+    
+    // Renderização de cada botão diferente.
+    perguntaItem.querySelectorAll('.botao').forEach((botao, indexBotao) => {
+        // Inicialização da variável para passar ela no switch.
+        let letraDaQuestão;
+
+        //Caso o index seja 0, letra A, 1, letra B etc.
+        switch (indexBotao) {
+            case 0:
+                letraDaQuestão = 'A';
+                break;
+            case 1:
+                letraDaQuestão = 'B';
+                break;
+            case 2:
+                letraDaQuestão = 'C';
+                break;
+            case 3:
+                letraDaQuestão = 'D';
+                break;
+        };
+
+        // Renderizando o conteúdo do botão, colocando a letra e a opção de
+        // resposta.
+        botao.innerHTML = `${letraDaQuestão} - ${respostasLista[indexBotao][0]}`;
+
+        // Esperando o clique de cada botão, e colocando as propriedades do CSS;
+        botao.addEventListener('click', () => {
+            if(respondidoCorreto){
+                return;
+            };
+            // Se o botão renderizado tiver o mesmo index que o passado pra
+            // variável, então ele é a resposta certa.
+            if (respostasLista[indexBotao][1]) {
+                // Verifica se a classe ainda não foi adicionada;
+                if (!(botao.classList.contains('correta'))) {
+                    // Adiciona +1 ao contador e coloca cor verde no botão.
+                    respondidas += 1
+                    respondidoCorreto = true;
+                    botao.classList.add('correta');
+
+                    // Animação para aparecer o Silvio Santos na resposta correta.
+                    search('#silvio').style.opacity = 0;
+                    search('#silvio').style.display = 'flex';
+                    setTimeout(() => {
+                        search('#silvio').style.opacity = 1;
+                    }, 100);
+                    setTimeout(() => {
+                        search('#silvio').style.opacity = 0;
+                        setTimeout(() => {
+                            search('#silvio').style.display = 'none';
+                        }, 200);
+                    }, 2000);
+                };
+            } else {
+                if (!(botao.classList.contains('errada'))) {
+                    // Coloca cor vermelha no botão
+                    botao.classList.add('errada');
+
+                    // Fazendo a aleatorização de qual imagem pegar quando errar.
+                    let randomChoice = Math.round(Math.random());
+                    console.log(randomChoice);
+                    let imagem;
+                    switch(randomChoice){
+                        case 0:
+                            imagem = '#faustao';
+                            break;
+                        case 1:
+                            imagem = '#farao';
+                            break;
+                    };
+                    console.log(imagem);
+                    // Animação para aparecer a imagem aleatoria quando errar.
+                    search(imagem).style.opacity = 0;
+                    search(imagem).style.display = 'flex';
+                    setTimeout(() => {
+                        search(imagem).style.opacity = 1;
+                    }, 100);
+                    setTimeout(() => {
+                        search(imagem).style.opacity = 0;
+                        setTimeout(() => {
+                            search(imagem).style.display = 'none';
+                        }, 200);
+                    }, 2000);
+                };
+            };
+            // Se o número de perguntas certas for igual ao número de perguntas
+            // dá um alerta.
+            if (respondidas === perguntasJson.length) {
+                setTimeout(alerta, 200);
+            };
+        });
+    });
+
+    // Adiciona o item de cada pergunta ao escopo da página.
+    search('.container').append(perguntaItem);
+});
+
+// Função pra fazer o alerta.
+const alerta = () => {
+    alert('Terminou');
 };
-setInterval(function(){
-    document.getElementById('d1').style.display="none"
-},2000)
-
-function erroa1() {
-    document.getElementById('a1').style.display="block";
-}
-setInterval(function(){
-    document.getElementById('a1').style.display="none";
-},2000)
-
-function errob1() {
-    document.getElementById('b1').style.display="block";
-}
-setInterval(function(){
-    document.getElementById('b1').style.display="none";
-},2000)
-
-function erroc1() {
-    document.getElementById('c1').style.display="block";
-}
-setInterval(function(){
-    document.getElementById('c1').style.display="none";
-},2000)
-
-/*questao 2 */
-
-function acertod2(acerto) {
-    document.getElementById('d2').style.display="block";
-    totalAcerto= totalAcerto++
-}
-setInterval(function(){
-    document.getElementById('d2').style.display="none"
-},2000)
-
-function erroa2() {
-    document.getElementById('a2').style.display="block";
-}
-setInterval(function(){
-    document.getElementById('a2').style.display="none";
-},2000)
-
-function errob2() {
-    document.getElementById('b2').style.display="block";
-}
-setInterval(function(){
-    document.getElementById('b2').style.display="none"
-},2000)
-
-function erroc2() {
-    document.getElementById('c2').style.display="block"
-}
-setInterval(function(){
-    document.getElementById('c2').style.display="none"
-},2000)
-
-/*questao 3 */
-
-function errod3() {
-    document.getElementById('d3').style.display="block"
-}
-setInterval(function(){
-    document.getElementById('d3').style.display="none"
-},2000)
-
-function acertoa3(acerto) {
-    document.getElementById('a3').style.display="block"
-    totalAcerto= totalAcerto++
-}
-setInterval(function(){
-    document.getElementById('a3').style.display="none"
-},2000)
-
-function errob3() {
-    document.getElementById('b3').style.display="block"
-}
-setInterval(function(){
-    document.getElementById('b3').style.display="none"
-},2000)
-
-function erroc3() {
-    document.getElementById('c3').style.display="block"
-}
-setInterval(function(){
-    document.getElementById('c3').style.display="none"
-},2000)
-
-/*questao 4 */
-
-function errod4() {
-    document.getElementById('d4').style.display="block"
-}
-setInterval(function(){
-    document.getElementById('d4').style.display="none"
-},2000)
-
-function erroa4() {
-    document.getElementById('a4').style.display="block"
-}
-setInterval(function(){
-    document.getElementById('a4').style.display="none"
-},2000)
-
-function errob4() {
-    document.getElementById('b4').style.display="block"
-}
-setInterval(function(){
-    document.getElementById('b4').style.display="none"
-},2000)
-
-function acertoc4(acerto) {
-    document.getElementById('c4').style.display="block"
-    totalAcerto= totalAcerto++
-}
-setInterval(function(){
-    document.getElementById('c4').style.display="none"
-},2000) 
-
-/*questao 5 */
-
-function errod5() {
-    document.getElementById('d5').style.display="block"
-}
-setInterval(function(){
-    document.getElementById('d5').style.display="none"
-},2000)
-
-function erroa5() {
-    document.getElementById('a5').style.display="block"
-}
-setInterval(function(){
-    document.getElementById('a5').style.display="none"
-},2000)
-
-function acertob5(acerto) {
-    document.getElementById('b5').style.display="block"
-    totalAcerto= totalAcerto++
-}
-setInterval(function(){
-    document.getElementById('b5').style.display="none"
-},2000)
-
-function arroc5() {
-    document.getElementById('c5').style.display="block"
-}
-setInterval(function(){
-    document.getElementById('c5').style.display="none"
-},2000) 
-
-/*questao 6 */
-
-function errod6() {
-    document.getElementById('d6').style.display="block"
-}
-setInterval(function(){
-    document.getElementById('d6').style.display="none"
-},2000)
-
-function acertoa6(acerto) {
-    document.getElementById('a6').style.display="block"
-    totalAcerto= totalAcerto++
-}
-setInterval(function(){
-    document.getElementById('a6').style.display="none"
-},2000)
-
-function errob6() {
-    document.getElementById('b6').style.display="block"
-}
-setInterval(function(){
-    document.getElementById('b6').style.display="none"
-},2000)
-
-function arroc6() {
-    document.getElementById('c6').style.display="block"
-}
-setInterval(function(){
-    document.getElementById('c6').style.display="none"
-},2000) 
-
-/*questao 7 */
-
-function acertod7(acerto) {
-    document.getElementById('d7').style.display="block"
-    totalAcerto= totalAcerto++
-}
-setInterval(function(){
-    document.getElementById('d7').style.display="none"
-},2000)
-
-function erroa7() {
-    document.getElementById('a7').style.display="block"
-}
-setInterval(function(){
-    document.getElementById('a7').style.display="none"
-},2000)
-
-function errob7() {
-    document.getElementById('b7').style.display="block"
-}
-setInterval(function(){
-    document.getElementById('b7').style.display="none"
-},2000)
-
-function arroc7() {
-    document.getElementById('c7').style.display="block"
-}
-setInterval(function(){
-    document.getElementById('c7').style.display="none"
-},2000) 
-
-/*questao 8 */
-
-function acertod8(acerto) {
-    document.getElementById('d8').style.display="block"
-    totalAcerto= totalAcerto++
-}
-setInterval(function(){
-    document.getElementById('d8').style.display="none"
-},2000)
-
-function erroa8() {
-    document.getElementById('a8').style.display="block"
-}
-setInterval(function(){
-    document.getElementById('a8').style.display="none"
-},2000)
-
-function errob8() {
-    document.getElementById('b8').style.display="block"
-}
-setInterval(function(){
-    document.getElementById('b8').style.display="none"
-},2000)
-
-function erroc8() {
-    document.getElementById('c8').style.display="block"
-}
-setInterval(function(){
-    document.getElementById('c8').style.display="none"
-},2000) 
-
-/*questao 9 */
-
-function errod9() {
-    document.getElementById('d9').style.display="block"
-}
-setInterval(function(){
-    document.getElementById('d9').style.display="none"
-},2000)
-
-function acertoa9(acerto) {
-    document.getElementById('a9').style.display="block"
-    totalAcerto= totalAcerto++
-}
-setInterval(function(){
-    document.getElementById('a9').style.display="none"
-},2000)
-
-function errob9() {
-    document.getElementById('b9').style.display="block"
-}
-setInterval(function(){
-    document.getElementById('b9').style.display="none"
-},2000)
-
-function erroc9() {
-    document.getElementById('c9').style.display="block"
-}
-setInterval(function(){
-    document.getElementById('c9').style.display="none"
-},2000) 
-
-/*questao 10 */
-
-function errod10() {
-    document.getElementById('d10').style.display="block"
-}
-setInterval(function(){
-    document.getElementById('d10').style.display="none"
-},2000)
-
-function erroa10() {
-    document.getElementById('a10').style.display="block"
-}
-setInterval(function(){
-    document.getElementById('a10').style.display="none"
-},2000)
-
-function errob10() {
-    document.getElementById('b10').style.display="block"
-}
-setInterval(function(){
-    document.getElementById('b10').style.display="none"
-},2000)
-
-function acertoc10(acerto) {
-    document.getElementById('c10').style.display="block"
-    totalAcerto= totalAcerto++
-}
-setInterval(function(){
-    document.getElementById('c10').style.display="none"
-},2000)
-
-if (totalAcerto ==10){
-    alert('show')
-
-}
